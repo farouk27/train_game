@@ -150,3 +150,126 @@ void Game::Run()
 		count++;
 	}
 }
+
+/*
+
+Describtion :
+claer the window and draw the background and draw the score on the right above
+while the train move it is raning and render the seen
+the it draw the snoopy which the train will eat
+
+input :no parm
+output :void
+
+ */
+void Game::Render()
+{
+	window.clear();
+	window.draw(bg);
+	window.draw(Score);
+	setHeadSprite(head, &TrainSprite);
+	cur = head;
+	while (cur != NULL)
+	{
+		if (cur != head)
+			setTrailingSprite(cur, &TrainSprite);
+		(*cur->s).setPosition(cur->posx, cur->posy);
+		window.draw(*cur->s);
+		cur = cur->rlink;
+	}
+	window.draw(snoopy);
+	window.display();
+}
+/*
+Describtion :
+related to sfml tool comes with the photo from content file and map it to spriter entity
+input :no parm
+output :void
+ */
+
+void Game::LoadSprites()
+{
+	this->spriteSheet.loadFromFile("content/trainsprite.png");
+	TrainSprite.setTexture(spriteSheet);
+	TrainSprite.setScale(sf::Vector2f(0.25, 0.25));
+	TrainSprite.setOrigin(104.5, 104.5);
+
+	snoopy.setTexture(spriteSheet);
+	snoopy.setTextureRect(sf::IntRect(size * 3, size * 1, size, size));
+	snoopy.setScale(0.2, 0.2);
+	snoopy.setOrigin(104.5, 104.5);
+
+	font.loadFromFile("content/Roboto-Bold.ttf");
+	Score.setFont(font);
+	Score.setFillColor(sf::Color::Black);
+
+	this->Background.loadFromFile("content/sand.jpg");
+	bg.setTexture(Background);
+	bg.setScale(2, 2);
+}
+
+/*
+
+Describtion :
+this function set the head depends on the direction of move
+input :no parm
+output :void
+
+ */
+void Game::setHeadSprite(NODE head, sf::Sprite* sp)
+{
+	switch (head->direction)
+	{
+		case up:
+			sp->setTextureRect(sf::IntRect(size * 1, size * 0, size, size));
+			head->s = sp;
+			break;
+		case down:
+			sp->setTextureRect(sf::IntRect(size * 0, size * 0, size, size));
+			head->s = sp;
+			break;
+		case left:
+			sp->setTextureRect(sf::IntRect(size * 3, size * 0, size, size));
+			head->s = sp;
+			break;
+		case right:
+			sp->setTextureRect(sf::IntRect(size * 2, size * 0, size, size));
+			head->s = sp;
+			break;
+		default:
+			break;
+	}
+}
+
+/*
+
+Describtion :
+decide where to add additional part depeds on the direction
+input :no parm
+output :void
+
+ */
+void Game::setTrailingSprite(NODE node, sf::Sprite* sp)
+{
+	switch (node->direction)
+	{
+		case up:
+			sp->setTextureRect(sf::IntRect(size * 1, size * 1, size, size));
+			node->s = sp;
+			break;
+		case down:
+			sp->setTextureRect(sf::IntRect(size * 2, size * 1, size, size));
+			node->s = sp;
+			break;
+		case left:
+			sp->setTextureRect(sf::IntRect(size * 0, size * 1, size, size));
+			node->s = sp;
+			break;
+		case right:
+			sp->setTextureRect(sf::IntRect(size * 0, size * 1, size, size));
+			node->s = sp;
+			break;
+		default:
+			break;
+	}
+}
