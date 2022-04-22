@@ -273,3 +273,42 @@ void Game::setTrailingSprite(NODE node, sf::Sprite* sp)
 			break;
 	}
 }
+
+/*
+
+Describtion :
+process the keyboard event depends on w or s or a or d
+
+input :no parm
+output :void
+
+ */
+void Game::processEvents()
+{
+	if (window.pollEvent(event))
+	{
+		switch (event.type)
+		{
+			case sf::Event::Closed: window.close(); break;
+			case sf::Event::KeyPressed:
+				if (event.key.code == sf::Keyboard::W && head->direction != down)
+				{
+					head->direction = up;
+				}
+				else if (event.key.code == sf::Keyboard::S && head->direction != up)
+				{
+					head->direction = down;
+				}
+				else if (event.key.code == sf::Keyboard::A && head->direction != right)
+				{
+					head->direction = left;
+				}
+				else if (event.key.code == sf::Keyboard::D && head->direction != left)
+				{
+					head->direction = right;
+				}
+			default:
+				break;
+		}
+	}
+}
