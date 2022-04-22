@@ -312,3 +312,60 @@ void Game::processEvents()
 		}
 	}
 }
+
+/*
+
+Describtion :
+claer the window and draw the background and draw the score on the right above
+while the train move it is raning and render the seen
+the it draw the snoopy which the train will eat
+
+input :no parm
+output :void
+
+ */
+
+sf::Vector2f Game::getSnoopyCoords()
+{
+	return sf::Vector2f((rand() % 26 + 1) * side * 2, (rand() % 19 + 1) * side * 2);
+}
+
+void Game::HandleSnoopyTouched()
+{
+	if (isSnoopyTouched(head, &snoopy))
+	{
+		head = insertHead(head, &TrainSprite);
+		speed--;
+		while (1)
+		{
+			snoopyPos = getSnoopyCoords();
+			cur = head;
+			while (cur != NULL)
+			{
+				if (cur->posx == snoopyPos.x && cur->posy == snoopyPos.y)
+				{
+					break;
+				}
+				cur = cur->rlink;
+			}
+			if (cur == NULL)
+				break;
+		}
+		snoopy.setPosition(getSnoopyCoords());
+		score++;
+		Score.setString(sf::String(std::to_string(score)));
+	}
+}
+
+/*
+
+Describtion :
+check if the postion of the head of the train is same as snoopoy it means the snoopy touched
+input :no parm
+output :void
+
+ */
+bool Game::isSnoopyTouched(NODE head, sf::Sprite* snoopy)
+{
+	return sf::Vector2f(head->posx, head->posy) == snoopy->getPosition();
+}
