@@ -369,3 +369,25 @@ bool Game::isSnoopyTouched(NODE head, sf::Sprite* snoopy)
 {
 	return sf::Vector2f(head->posx, head->posy) == snoopy->getPosition();
 }
+
+/*
+
+Describtion :
+check if the train intersect it self to end the game
+
+input :no parm
+output :void
+
+ */
+void Game::checkIntersection(NODE head, sf::RenderWindow* window)
+{
+	NODE cur = head->rlink;
+	while (cur != NULL)
+	{
+		if (head->posx == cur->posx && head->posy == cur->posy)
+		{
+			window->close();
+		}
+		cur = cur->rlink;
+	}
+}
