@@ -12,7 +12,7 @@ int main()
 #if defined(_DEBUG)
 	std::cout << "done with this game " << std::endl;
 #endif
-	// start of time estimation
+	// start of time estimation .
 	auto start = high_resolution_clock::now();
 
 	Game game;
